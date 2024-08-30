@@ -1,0 +1,32 @@
+from PIL import Image
+import os
+
+def convert_and_resize_images(input_folder, output_folder, width, height):
+    # Ensure output folder exists
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
+    # Get all PNG files in the input folder
+    input_files = [file for file in os.listdir(input_folder) if file.endswith('.png')]
+
+    # Loop through all PNG files in the input folder
+    for file_name in input_files:
+        png_path = os.path.join(input_folder, file_name)
+        img = Image.open(png_path)
+
+        # Resize the image
+        img_resized = img.resize((width, height))
+
+        # Convert to JPEG format
+        jpg_path = os.path.join(output_folder, file_name.replace('.png', '.jpg'))
+        img_resized = img_resized.convert("RGB")
+        img_resized.save(jpg_path, 'JPEG')
+
+# Example usage
+input_folder = './input_images'
+output_folder = './output_images'
+width = 550
+height = 160
+convert_and_resize_images(input_folder, output_folder, width, height)
+
+print("Conversion and resizing completed. Check the output folder for the JPEG files.")
